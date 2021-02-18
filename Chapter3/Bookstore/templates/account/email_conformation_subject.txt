@@ -1,0 +1,9 @@
+{% loan i18n %}
+
+{% autoescape off %}
+
+{% blocktrans %}
+Please Confirm Your Registration.
+{% endblocktrans %}
+
+{% endautoescape %}
