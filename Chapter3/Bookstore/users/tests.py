@@ -38,8 +38,12 @@ class CustomUserTests(TestCase):
 
 class SignUpPageTests(TestCase):
 
+
+    username = "vr3n"
+    email = 'vr3n@email.com'
+
     def setUp(self) -> None:
-        url = reverse('signup')
+        url = reverse('account_signup')
         self.response = self.client.get(url)
 
     # Test if signup page returns status code 200.
@@ -49,21 +53,25 @@ class SignUpPageTests(TestCase):
     # Test if Signup Template is correct or not.
     def test_signup_template(self):
         self.assertEqual(self.response.status_code, 200)
-        self.assertTemplateUsed(self.response, 'registration/sign_up.html')
+        self.assertTemplateUsed(self.response, 'account/signup.html')
         self.assertContains(self.response, 'Sign Up')
         self.assertNotContains(self.response, 'Home Page')
 
 
     # Check if CustomUserCreationForm is being used in the template.
     def test_signup_form(self):
-        form = self.response.context.get('form')
-        self.assertIsInstance(form, CustomUserCreationForm)
-        self.assertContains(self.response, 'csrfmiddlewaretoken')
+        new_user = get_user_model().objects.create_user(
+            self.username,
+            self.email
+        )
+        self.assertEqual(get_user_model().objects.all().count(), 1)
+        self.assertEqual(get_user_model().objects.all()[0].username, self.username)
+        self.assertEqual(get_user_model().objects.all()[0].email, self.email)
 
     # testing if the signup view is used correctly.
-    def test_signup_view(self):
-        view = resolve('/accounts/signup/')
-        self.assertEqual(
-            view.func.__name__,
-            SignUpPageView.as_view().__name__
-        )
+    # def test_signup_view(self):
+    #     view = resolve('/accounts/signup/')
+    #     self.assertEqual(
+    #         view.func.__name__,
+    #         SignUpPageView.as_view().__name__
+    #     )
