@@ -1,10 +1,11 @@
 from django.http import response
 from django.test import TestCase, SimpleTestCase
 from django.urls import reverse, resolve
-from .views import HomePageView
+from .views import AboutPageView, HomePageView
 
 # Create your tests here.
 
+# setting up the tests for the Home page.
 class HomepageTests(SimpleTestCase):
 
     # setting up the tests for the Home page.
@@ -30,3 +31,31 @@ class HomepageTests(SimpleTestCase):
     def test_homepage_url_resolves_homepageview(self):
         view = resolve('/')
         self.assertEqual(view.func.__name__, HomePageView.as_view().__name__)
+
+
+# settings up tests for about page
+class AboutPageTests(SimpleTestCase):
+
+    # settings up tests for about page
+    def setUp(self) -> None:
+        url = reverse('about')
+        self.response = self.client.get(url)
+
+    def test_aboutpage_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_aboutpage_url_name(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_aboutpage_template(self):
+        self.assertTemplateUsed(self.response, 'about.html')
+    
+    def test_aboutpage_contains_correct_html(self):
+        self.assertContains(self.response, 'About')
+
+    def test_aboutpage_does_not_contain_incorrect_html(self):
+        self.assertNotContains(self.response, "Hi there! I should not be on the page")
+
+    def test_aboutpage_url_resolves_aboutpageview(self):
+        view = resolve('/about/')
+        self.assertEqual(view.func.__name__, AboutPageView.as_view().__name__)
