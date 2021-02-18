@@ -154,6 +154,10 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # AUTHENTICATION REDIRECT URLS.
 
 LOGIN_REDIRECT_URL = 'home'
