@@ -8,6 +8,9 @@
 
 {% block content %}
     <h1>Homepage</h1>
+
+    {% include 'books/search_book_form.html' %}
+
     <img src="{% static 'images/dfp_31.jpg' %}" alt="django_for_professionals_book_cover" class="bookcover">
     <br>
     {% if user.is_authenticated %}

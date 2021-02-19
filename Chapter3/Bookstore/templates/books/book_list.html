@@ -9,6 +9,9 @@
 
 {% block content %}
 
+    {% include 'books/search_book_form.html' %}
+
+
     {% for book in book_list %}
         <div>
             <h2><a href="{{ book.get_absolute_url }}">{{book.title}}</a></h2>
